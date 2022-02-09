@@ -1,0 +1,1 @@
+docker-compose run --rm node sh -c "cd react-twitter && yarn install"
