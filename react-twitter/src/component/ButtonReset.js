@@ -1,11 +1,10 @@
 const ButtonReset = (props) => {
     return (
-        <button 
+        <input 
             type="button"
-            onClick={props.onClick}>
-            全てをリセット
-        </button>
-    )
+            value="全てをリセット"
+            onClick={props.onClick} />
+    );
 }
 
 export default ButtonReset;

@@ -1,66 +1,47 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { FileReaderEx } from '../utils/FileReaderEx';
+import { LoadVideo, LoadImage } from '../utils/LoadMedia';
 
-const PreviewMedia = (props) => {
+const PreviewMedia = ({ file }) => {
     const element = useRef(null);
     const [result, setResult] = useState();
+
     useEffect(() => {
         const setMedia = async () => {
-            if (props.file) {
-                const resultUrl = await new FileReaderEx().readAsDataURL(props.file);
-                if (resultUrl.startsWith("data:image")) {
-                    const image = new Image();
-                    image.onload = () => {
-                        let elementWidth = image.naturalWidth;
-                        if (element.current.clientWidth < image.naturalWidth) {
-                            elementWidth = element.current.clientWidth;
-                        }
-                        setResult(
-                            <img
-                                alt="preview"
-                                width={elementWidth}
-                                src={resultUrl} />
-                        );
-                    }
-                    image.src = resultUrl;
-                } else if (resultUrl.startsWith("data:video")) {
-                    const video = document.createElement('video');
-                    video.onloadedmetadata = () => {
-                        let elementWidth = video.videoWidth;
-                        if (element.current.clientWidth < video.videoWidth) {
-                            elementWidth = element.current.clientWidth;
-                        }
-                        setResult(
-                            <video 
-                                src={resultUrl}
-                                width={elementWidth}
-                                controls />
-                        );
-                    }
-                    video.src = resultUrl;
+            if (file) {
+                const resultUrl = file.name
+                                ? await new FileReaderEx().readAsDataURL(file)
+                                : file;
+                const elementWidth = element.current.clientWidth;
+                const isVideo = resultUrl.startsWith('data:video');
+                const media = isVideo ? await LoadVideo(resultUrl) : await LoadImage(resultUrl);
+                const mediaWidth = isVideo ? media.videoWidth : media.naturalWidth;
+                const setWidth = elementWidth < mediaWidth ? elementWidth : mediaWidth;
+                if (isVideo) {
+                    setResult(
+                        <video 
+                            src={resultUrl}
+                            width={setWidth}
+                            controls />
+                    );
+                } else {
+                    setResult(
+                        <img
+                            alt="preview"
+                            width={setWidth}
+                            src={resultUrl} />
+                    );
                 }
             } else {
                 setResult(null);
             }
         }
         setMedia();
-    }, [props.file]);
+    }, [file]);
+
     return (
         <div ref={element}>{result}</div>
-    )
-}
-
-class FileReaderEx extends FileReader {
-    readAs(blob, ctx){
-        return new Promise((res, rej)=>{
-            super.addEventListener("load", ({target}) => res(target.result));
-            super.addEventListener("error", ({target}) => rej(target.error));
-            super[ctx](blob);
-        });
-    }
-
-    readAsDataURL(blob){
-        return this.readAs(blob, "readAsDataURL");
-    }
+    );
 }
 
 export default PreviewMedia;

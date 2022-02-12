@@ -1,44 +1,35 @@
-import axios from 'axios';
+import React, { useContext } from 'react';
+import { PostStatus } from '../utils/AxiosEx';
+import { FileReaderEx } from '../utils/FileReaderEx';
+import { ResultContext } from '../App'
 
-const ButtonTweet = (props) => {
-    const tweet = () => {
+const ButtonTweet = ({ status, addId, file, disabled, reset }) => {
+    const [, setResult] = useContext(ResultContext);
+
+    const tweet = async () => {
         const data = {};
-        data["status"] = props.status;
+        data['status'] = status;
 
-        if (props.addId) {
-            data["id"] = props.addId;
+        if (addId) {
+            data['id'] = addId;
         }
 
-        if (props.file) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const mediaUrl = event.target.result;
-                data["media"] = mediaUrl;
-                postTweet(data);
-            }
-            reader.readAsDataURL(props.file);
-        } else {
-            postTweet(data);
+        if (file) {
+            data['media'] = await new FileReaderEx().readAsDataURL(file);
         }
-    }
-    
-    const postTweet = (data) => {
-        axios.post(props.url + "/post", data)
-        .then((res) => {
-            props.setLastId(res.data.id_str);
-            props.reset();
-        })
-        .catch(console.error);
+
+        const res = await PostStatus(data);
+        setResult(res);
+        reset();
     }
 
     return (
-        <button 
+        <input 
             type="button"
-            disabled={props.disabled}
-            onClick={tweet}>
-            ツイート送信
-        </button>
-    )
+            value="ツイート送信"
+            disabled={disabled}
+            onClick={tweet} />
+    );
 }
 
 export default ButtonTweet;
