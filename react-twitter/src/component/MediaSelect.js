@@ -1,11 +1,15 @@
-import React, {useRef} from 'react'
+import React, { useRef } from 'react'
 
-const MediaSelect = (props) => {
+const MediaSelect = ({ setFile }) => {
     const inputRef = useRef(null);
 
     const fileUpload = () => {
         inputRef.current.click();
-    };
+    }
+
+    const set = (event) => {
+        setFile(event.target.files[0]);
+    }
 
     return (
         <>
@@ -15,9 +19,9 @@ const MediaSelect = (props) => {
                 type="file"
                 ref={inputRef}
                 accept="image/*, video/*"
-                onChange={event => props.setFile(event.target.files[0])} />
+                onChange={set} />
         </>
-    )
+    );
 }
 
 export default MediaSelect;

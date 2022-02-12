@@ -1,31 +1,28 @@
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import ReplaceLineBody from './ReplaceLineBody';
+import React, { useEffect, useState } from 'react';
+import { GetStatus } from '../utils/AxiosEx';
+import TweetView from './TweetView';
 
-const AddTweetText = (props) => {
+const AddTweetText = ({ addId }) => {
     const [data, setData] = useState(null);
+
+    const lineStyle = { width: '48px', textAlign: 'center' };
+
     useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios.get(props.url + "/show?tweet_id=" + props.addId);
-            setData(result.data);
-        };
-        if (props.addId) {
-            fetchData();
-        } else {
-            setData(null);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.addId]);
+        const fetchData = async () => setData(await GetStatus(addId));
+        addId ? fetchData() : setData(null);
+    }, [addId]);
 
     return (
-        <div>
-            {data && <>
-                <AddTweetText url={props.url} addId={data.in_reply_to_status_id_str} />
-                <ReplaceLineBody item={data} />
-                <span>｜</span>
-            </>}
-        </div>
-    )
+        <>
+            {data &&
+                <>
+                    <AddTweetText addId={data.in_reply_to_status_id_str} />
+                    <TweetView item={data} />
+                    <div style={lineStyle}>|</div>
+                </>
+            }
+        </>
+    );
 }
 
 export default AddTweetText;
