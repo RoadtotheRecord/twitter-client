@@ -5,6 +5,6 @@ if [ $# -ne 0 ]; then
 fi
 
 docker-compose build
-docker-compose run --rm node sh -c "create-react-app react-twitter && chmod 777 -R react-twitter"
+docker-compose run --rm react sh -c "create-react-app react-twitter && chmod 777 -R react-twitter"
 
 exit 0
