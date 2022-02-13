@@ -9,14 +9,8 @@ const ButtonTweet = ({ status, addId, file, disabled, reset }) => {
     const tweet = async () => {
         const data = {};
         data['status'] = status;
-
-        if (addId) {
-            data['id'] = addId;
-        }
-
-        if (file) {
-            data['media'] = await new FileReaderEx().readAsDataURL(file);
-        }
+        data['id'] = addId && addId;
+        data['media'] = file && await new FileReaderEx().readAsDataURL(file);
 
         const res = await PostStatus(data);
         setResult(res);

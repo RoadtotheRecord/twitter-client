@@ -25,16 +25,14 @@ const InsertUrl = ({ data, urls }) => {
     let urlIndex = -1;
     let startIndex = -1;
     let endIndex = -1;
-    if (urls) {
-        urls.forEach((item, index) => {
-            if (data.indexOf(item.url) !== -1) {
-                urlInclude = true;
-                urlIndex = index;
-                startIndex = data.indexOf(item.url);
-                endIndex = data.lastIndexOf(item.url) + item.url.length;
-            }
-        });
-    }
+    urls && urls.forEach((item, index) => {
+        if (data.indexOf(item.url) !== -1) {
+            urlInclude = true;
+            urlIndex = index;
+            startIndex = data.indexOf(item.url);
+            endIndex = data.lastIndexOf(item.url) + item.url.length;
+        }
+    });
 
     return <>{urlInclude ? textCreate() : data}</>;
 }
