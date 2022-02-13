@@ -10,6 +10,7 @@ import ButtonReset from './component/ButtonReset';
 import AddTweetText from './component/AddTweetText';
 import InputCount from './component/InputCount';
 import BorderLine from './component/BorderLine';
+import Overlay from './component/Overlay';
 import { INITIAL_STATUS } from './utils/Config';
 
 export const ResultContext = createContext([null, () => {}])
@@ -19,6 +20,7 @@ const App = () => {
     const [disabled, setDisabled] = useState(true);
     const [file, setFile] = useState(null);
     const [addId, setAddId] = useState(null);
+    const [deleteId, setDeleteId] = useState(null);
     const [result, setResult] = useState(null);
 
     const CONTAINER_STYLE = {
@@ -37,6 +39,7 @@ const App = () => {
         setStatus(INITIAL_STATUS);
         setFile(null);
         setAddId(null);
+        setDeleteId(null);
     }
 
     return (
@@ -72,8 +75,13 @@ const App = () => {
                 <div style={COLUMN_STYLE}>
                     <TimeLineView
                         addId={addId}
-                        setAddId={setAddId} />
+                        setAddId={setAddId}
+                        setDeleteId={setDeleteId} />
                 </div>
+                <Overlay 
+                    deleteId={deleteId}
+                    setDeleteId={setDeleteId}
+                    reset={reset} />
             </ResultContext.Provider>
         </div>
     );
