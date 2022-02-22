@@ -26,7 +26,9 @@ const Overlay = ({ deleteId, setDeleteId, reset }) => {
     const ButtonStyle = { marginLeft: '52px' };
 
     const destroyTweet = async () => {
-        const res = await PostDestroy(deleteId);
+        const data = {};
+        data['id'] = deleteId;
+        const res = await PostDestroy(data);
         setResult(res);
         reset();
     }

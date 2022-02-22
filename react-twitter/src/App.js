@@ -11,6 +11,7 @@ import AddTweetText from './component/AddTweetText';
 import InputCount from './component/InputCount';
 import BorderLine from './component/BorderLine';
 import Overlay from './component/Overlay';
+import SpreadSheetView from './component/SpreadSheetView';
 import { INITIAL_STATUS } from './utils/Config';
 
 export const ResultContext = createContext([null, () => {}])
@@ -71,6 +72,7 @@ const App = () => {
                     <PreviewText body={status} />
                     <PreviewMedia file={file} />
                     <BorderLine />
+                    <SpreadSheetView />
                 </div>
                 <div style={COLUMN_STYLE}>
                     <TimeLineView
