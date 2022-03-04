@@ -3,11 +3,12 @@ version: '3'
 services:
   react:
     image: ${IMAGE_NAME}
+    container_name: ${IMAGE_NAME}
     build:
       context: .
     restart: always
     volumes:
-      - ./:/usr/src/app
+      - ./react-twitter:/app/react-twitter
     ports:
       - ${ACCESS_PORT}:3000
     stdin_open: true

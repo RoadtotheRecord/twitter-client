@@ -1,4 +1,12 @@
+### node_modules install
+FROM node:14.15.0-alpine AS node_modules
+WORKDIR /app
+COPY ./react-twitter/package*.json ./
+COPY ./react-twitter/yarn.lock ./
+RUN yarn install
+
+### nodejs start
 FROM node:14.15.0-alpine
-WORKDIR /usr/src/app
-RUN npm install -g create-react-app
-CMD sh -c "cd react-twitter && yarn start"
+WORKDIR /app/react-twitter
+COPY --from=node_modules /app/node_modules ./node_modules
+CMD ["yarn", "start"]
