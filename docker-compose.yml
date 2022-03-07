@@ -8,7 +8,8 @@ services:
       context: .
     restart: always
     volumes:
-      - ./react-twitter:/app/react-twitter
+      - ./react-twitter/public:/app/react-twitter/public
+      - ./react-twitter/src:/app/react-twitter/src
     ports:
       - ${ACCESS_PORT}:3000
     stdin_open: true
