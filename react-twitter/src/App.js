@@ -63,6 +63,7 @@ const App = () => {
                             file={file}
                             reset={reset} />
                         <MediaSelect
+                            file={file}
                             setFile={setFile} />
                         <ButtonReset
                             onClick={reset} />

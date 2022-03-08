@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 
-const MediaSelect = ({ setFile }) => {
+const MediaSelect = ({ file, setFile }) => {
     const inputRef = useRef(null);
 
     const fileUpload = () => {
@@ -9,6 +9,16 @@ const MediaSelect = ({ setFile }) => {
 
     const set = (event) => {
         setFile(event.target.files[0]);
+    }
+
+    const remove = () => {
+        setFile(null);
+    }
+
+    if (file) {
+        return (
+            <button onClick={remove}>ファイル削除</button>
+        )
     }
 
     return (
