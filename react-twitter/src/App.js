@@ -1,8 +1,6 @@
 import React, { createContext, useState } from 'react'
 import useMedia from 'use-media';
 import TimeLineView from './component/TimeLineView';
-import MediaSelect from './component/MediaSelect';
-import PreviewMedia from './component/PreviewMedia';
 import PreviewText from './component/PreviewText'
 import InputStatus from './component/InputStatus';
 import ButtonTweet from './component/ButtonTweet';
@@ -12,6 +10,7 @@ import InputCount from './component/InputCount';
 import BorderLine from './component/BorderLine';
 import Overlay from './component/Overlay';
 import SpreadSheetView from './component/SpreadSheetView';
+import SelectMedia from './component/SelectMedia';
 import { INITIAL_STATUS } from './utils/Config';
 
 export const ResultContext = createContext([null, () => {}])
@@ -62,16 +61,16 @@ const App = () => {
                             addId={addId}
                             file={file}
                             reset={reset} />
-                        <MediaSelect
-                            file={file}
-                            setFile={setFile} />
                         <ButtonReset
                             onClick={reset} />
                     </div>
                     <BorderLine />
                     <AddTweetText addId={addId} />
                     <PreviewText body={status} />
-                    <PreviewMedia file={file} />
+                    <BorderLine />
+                    <SelectMedia
+                        file={file}
+                        setFile={setFile} />
                     <BorderLine />
                     <SpreadSheetView />
                 </div>
