@@ -1,6 +1,7 @@
 import CountText from './CountText'
 
-export const INITIAL_STATUS = '\n#RttR';
+export const INITIAL_STATUS = '\n#RttR\nhttps://www.twitch.tv/roadtotherecord';
+export const INITIAL_DISCORD = '\n#RttR\nhttps://discord.gg/kNyCVR24jz';
 export const INITIAL_COUNT = CountText(INITIAL_STATUS);
 export const MAX_STATUS = 280;
 

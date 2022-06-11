@@ -5,13 +5,14 @@ import PreviewText from './component/PreviewText'
 import InputStatus from './component/InputStatus';
 import ButtonTweet from './component/ButtonTweet';
 import ButtonReset from './component/ButtonReset';
+import ButtonUrl from './component/ButtonUrl';
 import AddTweetText from './component/AddTweetText';
 import InputCount from './component/InputCount';
 import BorderLine from './component/BorderLine';
 import Overlay from './component/Overlay';
 import SpreadSheetView from './component/SpreadSheetView';
 import SelectMedia from './component/SelectMedia';
-import { INITIAL_STATUS } from './utils/Config';
+import { INITIAL_STATUS, INITIAL_DISCORD } from './utils/Config';
 
 export const ResultContext = createContext([null, () => {}])
 
@@ -22,6 +23,7 @@ const App = () => {
     const [addId, setAddId] = useState(null);
     const [deleteId, setDeleteId] = useState(null);
     const [result, setResult] = useState(null);
+    const [twitchUrl, setTwitchUrl] = useState(true);
 
     const CONTAINER_STYLE = {
         display: 'flex',
@@ -36,7 +38,11 @@ const App = () => {
     };
 
     const reset = () => {
-        setStatus(INITIAL_STATUS);
+        if (twitchUrl) {
+            setStatus(INITIAL_STATUS);
+        } else {
+            setStatus(INITIAL_DISCORD);
+        }
         setFile(null);
         setAddId(null);
         setDeleteId(null);
@@ -63,6 +69,10 @@ const App = () => {
                             reset={reset} />
                         <ButtonReset
                             onClick={reset} />
+                        <ButtonUrl 
+                            twitchUrl={twitchUrl}
+                            setTwitchUrl={setTwitchUrl}
+                            reset={reset} />
                     </div>
                     <BorderLine />
                     <AddTweetText addId={addId} />
