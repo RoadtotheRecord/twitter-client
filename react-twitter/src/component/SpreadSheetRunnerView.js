@@ -1,46 +1,40 @@
-const SpreadSheetRunnerView = ({ data, dataCommentator, dataSchedule }) => {
-    const returnRunner = (id) => data && data.hits.map((item, index) => {
+const SpreadSheetRunnerView = ({ dataA, dataB, dataC, dataSchedule }) => {
+    const returnRunner = (id, data) => data && data.hits.map((item, index) => {
         if (item['id'] === id) {
-            const groupName = `Group${id.slice(0, 1)}`
-            const commentator = returnCommentator(item['id']);
             return (
                 <div key={index}>
-                    <br />
-                    <div>{groupName}</div>
                     <div>{item['game_title']}の{item['runner_name']}さん({item['twitter']})</div>
-                    <div>・{item['runner_name']}さん : {item['stream_link']}</div>
-                    {commentator && 
-                        <>
-                            <div>解説</div>
-                            <div>{commentator}</div>
-                        </>
-                    }
                 </div>
             );
         }
         return null;
     });
 
-    const returnCommentator = (id) => {
-        let commentator = '';
-        dataCommentator && dataCommentator.hits.forEach((item) => {
-            item['link_id'].split(',').forEach((child_item) => {
-                if (id === child_item) {
-                    const name = item['twitter'] ? `${item['name']}さん(${item['twitter']})` : `${item['name']}さん`
-                    if (commentator) {
-                        commentator += `と${name}`;
-                    } else {
-                        commentator += name;
-                    }
-                }
-            });
-        });
-        return commentator;
-    }
+    const returnRunnerLink = (id, data) => data && data.hits.map((item, index) => {
+        if (item['id'] === id) {
+            return (
+                <div key={index}>
+                    <div>・{item['runner_name']}さん : {item['stream_link']}</div>
+                </div>
+            );
+        }
+        return null;
+    });
 
     return (
         <>
-            {returnRunner(dataSchedule)}
+            <br />
+            <div>現在記録挑戦中なのは</div>
+            {returnRunner(dataSchedule['group_a'], dataA)}
+            {returnRunner(dataSchedule['group_b'], dataB)}
+            {returnRunner(dataSchedule['group_c'], dataC)}
+            <div>の3名です。</div>
+            <div>応援よろしくお願いします！</div>
+            <br />
+            <div>先ほど紹介した走者とミラーの配信先は以下になります。</div>
+            {returnRunnerLink(dataSchedule['group_a'], dataA)}
+            {returnRunnerLink(dataSchedule['group_b'], dataB)}
+            {returnRunnerLink(dataSchedule['group_c'], dataC)}
         </>
     );
 }
