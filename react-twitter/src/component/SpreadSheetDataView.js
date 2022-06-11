@@ -23,15 +23,6 @@ const SpreadSheetDataView = ({ dataSchedule, nextSchedule, nowDate }) => {
     // eslint-disable-next-line
     }, []);
 
-    const judge = (judgeName) => {
-        if (dataSchedule && nextSchedule) {
-            return dataSchedule[judgeName] !== nextSchedule[judgeName]
-        } else if (!dataSchedule) {
-            return true;
-        }
-        return false;
-    }
-
     const judgeAll = () => {
         if (dataSchedule && nextSchedule) {
             const mc = dataSchedule['mc'] !== nextSchedule['mc'];
@@ -53,21 +44,35 @@ const SpreadSheetDataView = ({ dataSchedule, nextSchedule, nowDate }) => {
         <>
             {dataSchedule && 
                 <>
-                    <div>{dataSchedule['time']}現在のキャスト</div>
-                    <SpreadSheetMcView dataCommentator={dataCommentator} dataSchedule={dataSchedule['mc']} />
-                    <SpreadSheetRunnerView data={dataA} dataCommentator={dataCommentator} dataSchedule={dataSchedule['group_a']} />
-                    <SpreadSheetRunnerView data={dataB} dataCommentator={dataCommentator} dataSchedule={dataSchedule['group_b']} />
-                    <SpreadSheetRunnerView data={dataC} dataCommentator={dataCommentator} dataSchedule={dataSchedule['group_c']} />
+                    <div>{dataSchedule['time']}からのキャスト</div>
+                    <SpreadSheetRunnerView
+                        dataA={dataA}
+                        dataB={dataB}
+                        dataC={dataC}
+                        dataSchedule={dataSchedule} />
+                    <SpreadSheetMcView
+                        dataA={dataA}
+                        dataB={dataB}
+                        dataC={dataC}
+                        dataCommentator={dataCommentator}
+                        dataSchedule={dataSchedule} />
                     <BorderLine />
                 </>
             }
             {nextSchedule && 
                 <>
-                    <div>{nextSchedule['time']}から出場のキャスト</div>
-                    {judge('mc') && <SpreadSheetMcView dataCommentator={dataCommentator} dataSchedule={nextSchedule['mc']} />}
-                    {judge('group_a') && <SpreadSheetRunnerView data={dataA} dataCommentator={dataCommentator} dataSchedule={nextSchedule['group_a']} />}
-                    {judge('group_b') && <SpreadSheetRunnerView data={dataB} dataCommentator={dataCommentator} dataSchedule={nextSchedule['group_b']} />}
-                    {judge('group_c') && <SpreadSheetRunnerView data={dataC} dataCommentator={dataCommentator} dataSchedule={nextSchedule['group_c']} />}
+                    <div>{nextSchedule['time']}からのキャスト(次の時間帯)</div>
+                    <SpreadSheetRunnerView
+                        dataA={dataA}
+                        dataB={dataB}
+                        dataC={dataC}
+                        dataSchedule={nextSchedule} />
+                    <SpreadSheetMcView
+                        dataA={dataA}
+                        dataB={dataB}
+                        dataC={dataC}
+                        dataCommentator={dataCommentator}
+                        dataSchedule={nextSchedule} />
                     <BorderLine />
                 </>
             }
