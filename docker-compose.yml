@@ -10,6 +10,7 @@ services:
     volumes:
       - ./react-twitter/public:/app/react-twitter/public
       - ./react-twitter/src:/app/react-twitter/src
+      - ./react-twitter/.env:/app/react-twitter/.env
     ports:
       - ${ACCESS_PORT}:3000
     stdin_open: true
